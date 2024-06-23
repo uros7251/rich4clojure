@@ -10,11 +10,15 @@
 ;; 1+2+3=6. Write a function which returns true for
 ;; perfect numbers and false otherwise.
 
-(def __ :tests-will-fail)
+(def __ (fn [n]
+            (->> (range 2 (Math/ceil (Math/sqrt n)))
+                 (filter #(zero? (rem n %)))
+                 (reduce #(+ %1 %2 (/ n %2)) 0)
+                 (= (dec n))))) ;; 1 is also a divisor
 
 (comment
-  
   )
+(rem 6 1)
 
 (tests
   (__ 6) := true

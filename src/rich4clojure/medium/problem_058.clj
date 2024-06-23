@@ -13,10 +13,20 @@
 
 (def restricted [comp])
 
-(def __ :tests-will-fail)
+(def __ (fn 
+          ([] identity)
+          ([f & fs] 
+           (fn [& xs]
+             (if (seq fs)
+               (f (apply (apply __ fs) xs))
+               (apply f xs))))))
 
 (comment
-  
+  (defn comp' [& fs]
+    (let [[f & rst] (reverse fs)]
+      (fn [& xs]
+        (reduce #(%2 %1) (apply f xs) rst))))
+  ((comp' inc) 5)
   )
 
 (tests

@@ -13,10 +13,20 @@
 ;; sub-sequences themselves can be returned in any order
 ;; (this is why 'set' is used in the test cases).
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (vals (reduce (fn [acc, x]
+                         (update
+                          acc
+                          (str (type x))
+                          #(if (nil? %)
+                             [x]
+                             (conj % x))))
+                       {}
+                       s))))
 
 (comment
-  
+  (defn my-homogenize [s]
+    (vals (group-by type s)))
   )
 
 (tests

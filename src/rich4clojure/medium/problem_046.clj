@@ -9,7 +9,8 @@
 ;; Write a higher-order function which flips the order of
 ;; the arguments of an input function.
 
-(def __ :tests-will-fail)
+(def __ (fn [f]
+          (fn [a b] (f b a))))
 
 (comment
   

@@ -10,7 +10,13 @@
 ;; given set. The power set of a set x is the set of all
 ;; subsets of x, including the empty set and x itself.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (loop [super-s #{#{}} s' s]
+            (if (empty? s')
+              super-s
+              (recur
+               (into super-s (map #(conj % (first s')) super-s))
+               (rest s'))))))
 
 (comment
   

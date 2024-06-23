@@ -16,10 +16,18 @@
 
 (def restricted [merge-with])
 
-(def __ :tests-will-fail)
+(def __ (fn [f & ms]
+          (when (seq ms)
+            (reduce (fn [acc m]
+                      (reduce (fn [acc', [k v]]
+                                (update acc' k
+                                        #(if (nil? %) v (f % v))))
+                              acc
+                              m))
+                    ms))))
 
 (comment
-  
+  (__ + {:a 1 :b 2} {:b 3 :c 4})
   )
 
 (tests

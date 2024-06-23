@@ -12,10 +12,14 @@
 ;; should be a sequence of sequences with only one level
 ;; of nesting.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+            (if-let [s' (seq s)]
+              (if (sequential? (first s'))
+                (mapcat __ s')
+                [s])
+              s)))
 
 (comment
-  
   )
 
 (tests

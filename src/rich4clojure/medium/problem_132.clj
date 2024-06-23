@@ -11,17 +11,21 @@
 ;; where the value is inserted between every two items
 ;; that satisfy the predicate.
 
-(def __ :tests-will-fail)
+(def __ (fn [p val coll]
+          (->> coll
+               (partition-all 2 1)
+               (mapcat (fn [[x y :as all]]
+                      (if (and (= 2 (count all)) (p x y))
+                        [x val]
+                        [x]))))))
 
-(comment
-  
+(comment 
   )
 
 (tests
   '(1 :less 6 :less 7 4 3) := (__ < :less [1 6 7 4 3])
   '(2) := (__ > :more [2])
   [0 1 :x 2 :x 3 :x 4] :=  (__ #(and (pos? %) (< % %2)) :x (range 5))
-  (__ > :more ()) :=
   [0 1 :same 1 2 3 :same 5 8 13 :same 21] :=
    (take 12 (->> [0 1]
                  (iterate (fn [[a b]] [b (+ a b)]))

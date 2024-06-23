@@ -13,25 +13,44 @@
 ;; are properly paired and legally nested, or returns
 ;; falsey otherwise.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+            (loop [[h & t] (filter (set "[](){}") s) stack []]
+              (if h
+                (if (some (partial = (str (peek stack) h))
+                          ["[]" "()" "{}"])
+                  (recur t (pop stack))
+                  (recur t (conj stack h)))
+                (empty? stack)))))
 
 (comment
-  
+  (defn sanity-check [s]
+    (loop [[h & t] (filter (set "[](){}") s) stack []]
+      (if h
+        (if (some (partial = (str (peek stack) h))
+                  ["[]" "()" "{}"])
+          (recur t (pop stack))
+          (recur t (conj stack h)))
+        (empty? stack))))
+  (sanity-check "class Test {
+                      public static void main(String[] args) {
+                        System.out.println(\"Hello world.\");
+                      }
+                    }")
   )
 
 (tests
-  "This string has no brackets." :=
-  "class Test {
+ (__ "This string has no brackets.") :=
+ (__ "class Test {
       public static void main(String[] args) {
         System.out.println(\"Hello world.\");
       }
-    }" :=
-  (__ "(start, end]") :=
-  (__ "())") :=
-  (__ "[ { ] } ") :=
-  "([]([(()){()}(()(()))(([[]]({}()))())]((((()()))))))" :=
-  (__ "([]([(()){()}(()(()))(([[]]({}([)))())]((((()()))))))") :=
-  (__ "[") :=)
+    }") :=
+ (__ "([]([(()){()}(()(()))(([[]]({}()))())]((((()()))))))") := true
+ (__ "(start, end]") :=
+ (__ "())") :=
+ (__ "[ { ] } ") :=
+ (__ "([]([(()){()}(()(()))(([[]]({}([)))())]((((()()))))))") :=
+ (__ "[") :=)
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/6b8d50ee0811042bdc646dc9060037e8

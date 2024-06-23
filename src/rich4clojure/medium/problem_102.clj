@@ -1,5 +1,6 @@
 (ns rich4clojure.medium.problem-102
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.string :as str]))
 
 ;; = intoCamelCase =
 ;; By 4Clojure user: amalloy
@@ -13,7 +14,13 @@
 ;; hyphen-separated strings and converts them to
 ;; camel-case strings.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (->> (str/split s #"-")
+               (map #(if (= %1 0)
+                       %2
+                       (str/capitalize %2))
+                    (range))
+               (str/join ""))))
 
 (comment
   

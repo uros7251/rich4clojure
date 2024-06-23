@@ -14,11 +14,16 @@
 ;; least two words. Words without any anagrams should not
 ;; be included in the result.
 
-(def __ :tests-will-fail)
+(def __ (fn [words]
+          (->> words
+               (group-by frequencies)
+               (remove (fn [[_ v]] (= 1 (count v))))
+               (map (fn [[_ v]] (into #{} v)))
+               (into #{}))))
+
 
 (comment
-  
-  )
+)
 
 (tests
   (__ ["meat" "mat" "team" "mate" "eat"]) :=

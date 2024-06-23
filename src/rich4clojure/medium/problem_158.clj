@@ -12,7 +12,12 @@
 ;; 
 ;; You may wish to read this .
 
-(def __ :tests-will-fail)
+(def __ (fn [f]
+          (fn [& args]
+            (loop [f' f [h & t] args]
+              (if h
+               (recur (f' h) t)
+                f')))))
 
 (comment
   

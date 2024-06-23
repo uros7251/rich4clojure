@@ -1,5 +1,6 @@
 (ns rich4clojure.medium.problem-070
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.string]))
 
 ;; = Word Sorting =
 ;; By 4Clojure user: fotland
@@ -10,10 +11,11 @@
 ;; sorted list of words. Capitalization should not affect
 ;; sort order and punctuation should be ignored.
 
-(def __ :tests-will-fail)
-
+(def __ (fn [s] 
+          (sort-by clojure.string/lower-case
+                   (re-seq #"\w+" s))))
 (comment
-  
+  (re-seq #"\w+" "Have a")
   )
 
 (tests

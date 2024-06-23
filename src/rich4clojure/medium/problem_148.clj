@@ -12,11 +12,18 @@
 ;; third argument). Numbers a and b are guaranteed to be
 ;; coprimes.
 ;; 
+;; ()
 ;; 
 ;; Note: Some test cases have a very large n, so the most
 ;; obvious solution will exceed the time limit.
 
-(def __ :tests-will-fail)
+(def __ (fn [n a b]
+          (letfn [(f [n x]
+                     (let [k (quot (dec n) x)]
+                       (/ (*' k (inc k) x) 2)))]
+            (-' (+' (f n a)
+                  (f n b))
+               (f n (*' a b))))))
 
 (comment
   

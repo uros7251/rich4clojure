@@ -22,12 +22,25 @@
 ;; built-in predicates like list? - the point is to poke
 ;; at them and understand their behavior.
 
-(def restricted [class type Class vector? sequential? list? seq? map? set? instance? getClass])
+(def restricted [class type Class vector? sequential? list? seq? map? set? instance? :getClass])
 
-(def __ :tests-will-fail)
+(def __ (fn [coll]
+          (let [t (conj (empty coll) [:k1 :v1] [:k2 :v2] [:k2 :v2])]
+            (cond (= (:k1 t) :v1) :map
+                  (= (count t) 2) :set
+                  (= (first t) [:k1 :v1]) :vector
+                  :else :list))))
 
 (comment
+  (defn my-type [coll]
+    (let [coll' (empty coll)]
+      (condp = ((juxt associative? reversible?) coll')
+        [false false] (if (= 2 (count (conj coll' 1 1))) :list :set)
+        [true true] :vector
+        [true false] :map)))
   
+  (map my-type [{} #{} [] ()])
+  (apply conj [] [1 3 4 6])
   )
 
 (tests

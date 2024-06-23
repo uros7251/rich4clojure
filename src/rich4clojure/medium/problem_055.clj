@@ -12,10 +12,10 @@
 
 (def restricted [frequencies])
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (update-vals (group-by identity s) count)))
 
 (comment
-  
   )
 
 (tests

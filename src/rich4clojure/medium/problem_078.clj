@@ -11,10 +11,21 @@
 
 (def restricted [trampoline])
 
-(def __ :tests-will-fail)
+(def __ (fn my-trampoline [f & args]
+         (loop [f' (apply f args)]
+           (if (fn? f')
+             (recur (f'))
+             f'))))
 
 (comment
+  (defn fib
+    ([n] (fib n 0 1))
+    ([n a b]
+     (if (zero? n)
+       a
+       #(fib (dec n) b (+ a b)))))
   
+  (map #(__ fib %) (range 10))
   )
 
 (tests

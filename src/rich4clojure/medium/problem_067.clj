@@ -9,10 +9,16 @@
 ;; Write a function which returns the first x number of
 ;; prime numbers.
 
-(def __ :tests-will-fail)
+(def __ (fn [n]
+          (let [prime?
+                (fn [n]
+                  (loop [k 2 boundary (Math/sqrt n)]
+                    (cond (> k boundary) true
+                          (zero? (rem n k)) false
+                          :else (recur (inc k) boundary))))]
+            (take n (filter #(and (> % 1) (prime? %)) (range))))))
 
 (comment
-  
   )
 
 (tests

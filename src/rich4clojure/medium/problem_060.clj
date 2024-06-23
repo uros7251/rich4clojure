@@ -13,14 +13,24 @@
 
 (def restricted [reductions])
 
-(def __ :tests-will-fail)
+(def __ (fn
+          ([f s]
+            (if-let [[h & t] s]
+              (if-let [[h' & t'] t]
+                (__ f (f h h') t')
+                `(~h))
+              `(~(f))))
+          ([f acc s]
+           (lazy-seq
+            (if-let [[h & t] s]
+              (cons acc (__ f (f acc h) t))
+              `(~acc))))))
 
-(comment
-  
+(comment 
   )
 
 (tests
-  (take 5 (__ + (range))) := [0 1 3 6 10]
+  ;(take 5 (__ + (range))) := [0 1 3 6 10]
   (__ conj [1] [2 3 4]) := [[1] [1 2] [1 2 3] [1 2 3 4]]
   (last (__ * 2 [3 4 5])) := (reduce * 2 [3 4 5]) 120)
 

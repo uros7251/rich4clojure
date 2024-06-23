@@ -29,10 +29,16 @@
 ;; 
 ;; There is an interesting pattern in the numbers!
 
-(def __ :tests-will-fail)
+(def __ (fn ([n]
+             (set (__ n n [""])))
+            ([o c res]
+             (cond (zero? c) res
+                   (zero? o) (recur o (dec c) (map #(str % ")") res))
+                   (= o c) (recur (dec o) c (map #(str % "(") res))
+                   :else (into (__ (dec o) c (map #(str % "(") res))
+                               (__ o (dec c) (map #(str % ")") res)))))))
 
-(comment
-  
+(comment 
   )
 
 (tests

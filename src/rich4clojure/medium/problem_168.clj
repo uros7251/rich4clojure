@@ -36,9 +36,21 @@
 ;; equivalently, that consists of the first s entries of
 ;; each of the first t columns of the matrix B .
 
-(def restricted [for range iterate repeat cycle drop])
+(def restricted [#'for range iterate repeat cycle drop])
 
-(def __ :tests-will-fail)
+(def __ (fn
+          ([f]
+           (__ f 0 0))
+          ([f m n]
+           (map (fn [i]
+                  (map (fn [j]
+                         (f i j))
+                       (iterate inc n)))
+                (iterate inc m)))
+          ([f m n s t]
+           (->> (__ f m n)
+                (take s)
+                (map #(take t %))))))
 
 (comment
   

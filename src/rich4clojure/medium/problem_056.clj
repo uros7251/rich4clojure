@@ -11,10 +11,15 @@
 
 (def restricted [distinct])
 
-(def __ :tests-will-fail)
+(def __ (fn [s] 
+          (loop [r [] d #{} s' s] 
+            (if-let [[h & t] s'] 
+              (recur (if (d h) r (conj r h))
+                     (conj d h)
+                     t)
+              r))))
 
 (comment
-  
   )
 
 (tests

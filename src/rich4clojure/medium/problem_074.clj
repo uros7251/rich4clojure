@@ -1,5 +1,6 @@
 (ns rich4clojure.medium.problem-074
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.string :as str]))
 
 ;; = Filter Perfect Squares =
 ;; By 4Clojure user: dbyrne
@@ -10,7 +11,16 @@
 ;; that only contains the numbers which are perfect
 ;; squares.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (letfn [(square? [x]
+                    (let [sqrt-x (Math/sqrt x)]
+                      (= (Math/floor sqrt-x) sqrt-x)))]
+            (->> (str/split s #",")
+                 (map parse-long)
+                 (filter square?)
+                 (map str)
+                 (str/join ","))
+            )))
 
 (comment
   

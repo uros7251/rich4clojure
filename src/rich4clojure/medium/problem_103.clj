@@ -11,12 +11,21 @@
 ;; sets consisting of k distinct elements taken from S.
 ;; 
 ;; The number of k-combinations for a sequence is equal
-;; to the binomial coefficient .
+;; to the binomial coefficient.
 
-(def __ :tests-will-fail)
+(def __ (fn
+          ([k s c]
+           (cond (zero? k) #{c}
+                 (= (count s) k) #{(into c s)}
+                 :else (into
+                        (__ (dec k) (rest s) (conj c (first s)))
+                        (__ k (rest s) c))))
+          ([k s]
+           (if (< (count s) k)
+              #{}
+              (__ k s #{})))))
 
 (comment
-  
   )
 
 (tests

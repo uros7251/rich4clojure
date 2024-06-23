@@ -15,17 +15,31 @@
 ;; loops endlessly. Write a function that determines if a
 ;; number is happy or not.
 
-(def __ :tests-will-fail)
+(def __ (fn [n]
+          (letfn [(lazy-digits
+                    [n]
+                    (when (pos-int? n)
+                      (lazy-seq
+                       (cons (rem n 10) (lazy-digits (quot n 10))))))
+                  (digits-squared
+                    [n]
+                    (reduce #(+ %1 (* %2 %2)) 0 (lazy-digits n)))]
+            (loop [n' n visited #{}]
+              (if (contains? visited n')
+                false
+                (let [ds (digits-squared n')]
+                  (if (= ds 1)
+                    true
+                    (recur ds (conj visited n')))))))))
 
 (comment
-  
-  )
+)
 
 (tests
-  (__ 7) := true
-  (__ 986543210) := true
-  (__ 2) := false
-  (__ 3) := false)
+ (__ 7) := true
+ (__ 986543210) := true
+ (__ 2) := false
+ (__ 3) := false)
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/b921948244dc0417fc716fe31cecb359

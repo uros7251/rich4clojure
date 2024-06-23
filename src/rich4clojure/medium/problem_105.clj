@@ -11,10 +11,27 @@
 ;; the value is a sequence of all the numbers (if any)
 ;; between it and the next keyword in the sequence.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+            (loop [k nil v [] m {} s' s]
+              (if-let [[f & r] s']
+                (if (keyword? f)
+                  (recur f [] (assoc m k v) r)
+                  (recur k (conj v f) m r))
+                (dissoc (if k
+                          (assoc m k v)
+                          m)
+                        nil)))))
 
 (comment
-  
+  (defn my-key-group [s]
+    (loop [s' s
+           acc {}]
+      (if-let [[head & tail] (seq s')]
+        (let [[vals others] (split-with (complement keyword?) tail)]
+          (recur others (assoc acc head (vec vals))))
+        acc
+        )))
+  (my-key-group [])
   )
 
 (tests

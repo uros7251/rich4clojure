@@ -9,10 +9,20 @@
 ;; Write a function which can rotate a sequence in either
 ;; direction.
 
-(def __ :tests-will-fail)
+(def __ (fn [n s]
+          (let [n' (mod n (count s))]
+            (concat (drop n' s) (take n' s)))))
 
 (comment
-  
+  (conj (seq [1 2 3]) 4)
+  (defn my-rotate [n s]
+    (loop [n' (mod n (count s))
+           s' s
+           t []]
+      (if (zero? n')
+        (concat s' t)
+        (recur (dec n') (rest s') (conj t (first s'))))))
+  (my-rotate 2 [1 2 3 4 5])
   )
 
 (tests

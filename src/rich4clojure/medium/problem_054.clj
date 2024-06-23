@@ -12,10 +12,22 @@
 
 (def restricted [partition partition-all])
 
-(def __ :tests-will-fail)
+(def __ (fn [n s]
+          (loop [res [] s' s]
+            (if (< (count s') n)
+              res
+              (let [[h t] (split-at n s')] ; more efficient than separate take and drop
+                (recur (conj res h) t))))))
 
 (comment
-  
+  (defn my-partition [n s]
+    (lazy-seq
+     (if (< (count s) n)
+       nil
+       (let [[h t] (split-at n s)]
+         (cons h (my-partition n t))))))
+  (nth (my-partition 2 (range 6000)) 50)
+  (nth (__ 2 (range 6000)) 50)
   )
 
 (tests

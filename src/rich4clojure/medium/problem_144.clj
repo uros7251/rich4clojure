@@ -12,10 +12,15 @@
 ;; to the value in order, restarting from the first
 ;; function after it hits the end.
 
-(def __ :tests-will-fail)
+(def __ (fn [init f & fs]
+          (->> [init (into [f] fs)]
+               (iterate (fn [[val fs']]
+                          (if-let [[h & t] fs']
+                            [(h val) t]
+                            [(f val) fs])))
+               (map first))))
 
 (comment
-  
   )
 
 (tests

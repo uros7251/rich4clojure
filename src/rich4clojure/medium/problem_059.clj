@@ -13,7 +13,9 @@
 
 (def restricted [juxt])
 
-(def __ :tests-will-fail)
+(def __ (fn [& fs]
+          (fn [& xs]
+            (map #(apply % xs) fs))))
 
 (comment
   

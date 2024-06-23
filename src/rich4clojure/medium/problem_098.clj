@@ -12,10 +12,13 @@
 ;; computes the equivalence classes of D with respect to
 ;; f.
 
-(def __ :tests-will-fail)
+(def __ (fn [f d]
+          (->> d
+               (group-by f)
+               (map #(set (val %)))
+               (set))))
 
-(comment
-  
+(comment 
   )
 
 (tests

@@ -9,10 +9,14 @@
 ;; Write a function which reverses the interleave process
 ;; into x number of subsequences.
 
-(def __ :tests-will-fail)
+(def __ (fn ([s n] (__ s n n))
+          ([s n k]
+           (lazy-seq
+            (if (zero? k)
+              nil
+              (cons (take-nth n s) (__ (rest s) n (dec k))))))))
 
-(comment
-  
+(comment 
   )
 
 (tests

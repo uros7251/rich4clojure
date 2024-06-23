@@ -1,5 +1,5 @@
 (ns rich4clojure.medium.problem-141
-  (:require [hyperfiddle.rcf :refer [tests]]))
+   (:require [hyperfiddle.rcf :refer [tests]]))
 
 ;; = Tricky card games =
 ;; By 4Clojure user: amalloy
@@ -29,23 +29,32 @@
 ;; Recognize Playing Cards : a hash-map of :suit and a
 ;; numeric :rank. Cards with a larger rank are stronger.
 
-(def __ :tests-will-fail)
+ (def __ (fn [trump]
+           (fn [cards]
+             (let [lead-card (first cards)
+                   win-suit (or trump (:suit lead-card))]
+               (reduce (fn [acc c]
+                         (if (and (= win-suit (:suit c))
+                                  (< (:rank acc) (:rank c)))
+                           c
+                           acc))
+                       lead-card
+                       cards)))))
 
 (comment
-  
   )
 
 (tests
-  [notrump (__ nil)] :=
-  (and (= {:suit :club :rank 9}  (notrump [{:suit :club :rank 4}
-                                           {:suit :club :rank 9}]))
-       (= {:suit :spade :rank 2} (notrump [{:suit :spade :rank 2}
-                                           {:suit :club :rank 10}])))
-  {:suit :club :rank 10} := ((__ :club) [{:suit :spade :rank 2}
-                                       {:suit :club :rank 10}])
-  {:suit :heart :rank 8} :=
-   ((__ :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}
-                 {:suit :diamond :rank 10} {:suit :heart :rank 4}]))
+ (let [notrump (__ nil)]
+   (and (= {:suit :club :rank 9}  (notrump [{:suit :club :rank 4}
+                                            {:suit :club :rank 9}]))
+        (= {:suit :spade :rank 2} (notrump [{:suit :spade :rank 2}
+                                            {:suit :club :rank 10}])))) := true
+ {:suit :club :rank 10} := ((__ :club) [{:suit :spade :rank 2}
+                                        {:suit :club :rank 10}])
+ {:suit :heart :rank 8} :=
+ ((__ :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}
+               {:suit :diamond :rank 10} {:suit :heart :rank 4}]))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/7e0c1414a4608324194462939c7d6121

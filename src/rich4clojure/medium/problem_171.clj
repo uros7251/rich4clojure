@@ -11,10 +11,20 @@
 ;; integers between start and end (inclusive) are
 ;; contained in the input sequence.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (if (empty? s)
+            []
+            (loop [[h & t] (sort s)
+                   intervals []
+                   low h
+                   high h]
+              (if h
+                (if (<= (dec h) high h)
+                  (recur t intervals low h)
+                  (recur t (conj intervals [low high]) h h))
+                (conj intervals [low high]))))))
 
 (comment
-  
   )
 
 (tests
