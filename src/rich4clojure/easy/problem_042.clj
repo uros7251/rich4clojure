@@ -8,10 +8,18 @@
 ;; 
 ;; Write a function which calculates factorials.
 
-(def __ :tests-will-fail)
+(def __ (fn [n]
+          (loop [n' n f 1]
+            (if (zero? n')
+              f
+              (recur (dec n') (* f n')))))
+  )
 
 (comment
-  
+  (defn my-factorial [n]
+    (->> (range 1 (inc n))
+         (reduce #(* %1 %2) 1)))
+  (my-factorial 8)
   )
 
 (tests

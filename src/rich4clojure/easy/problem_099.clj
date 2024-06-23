@@ -9,7 +9,11 @@
 ;; Write a function which multiplies two numbers and
 ;; returns the result as a sequence of its digits.
 
-(def __ :tests-will-fail)
+(def __ (fn [a b]
+          (loop [x (* a b) s '()]
+            (if (zero? x)
+              s
+              (recur (int (/ x 10)) (conj s (rem x 10)))))))
 
 (comment
   

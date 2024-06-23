@@ -12,11 +12,25 @@
 ;; 
 ;; Hint: "racecar" does not equal '(\r \a \c \e \c \a \r)
 
-(def __ :tests-will-fail)
+(def __ (fn [coll]
+          (cond (empty? coll) true
+                (= 1 (count coll)) true
+                (= (first coll) (last coll)) (recur (butlast (rest coll)))
+                :else false)))
 
 (comment
+  (defn palindrome?
+    [coll]
+    (cond (empty? coll) true
+          (= 1 (count coll)) true
+          (not= (first coll) (last coll)) false
+          :else (recur (butlast (rest coll))))
+    )
   
-  )
+  (palindrome? [1 2 3 2 1]) ;=> true
+  (palindrome? [1 2 3 4 5]) ;=> false
+  (palindrome? "racecar") ;=> true
+  :rcf)
 
 (tests
   (__ '(1 2 3 4 5)) :=

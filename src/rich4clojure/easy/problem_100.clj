@@ -10,10 +10,19 @@
 ;; multiple. Your function should accept a variable number
 ;; of positive integers or ratios.
 
-(def __ :tests-will-fail)
+(def __ (fn
+          ([a] a)
+          ([a b]
+             (let [n (* a b)
+                   d ((fn [a b]
+                        (cond (zero? a) b
+                              (> a b) (recur b a)
+                              :else (recur (rem b a) a))) a b)]
+               (/ n d)))
+          ([a b & c] (apply __ (__ a b) c))))
 
-(comment
-  
+(comment 
+  (rem 2/5 5/16)
   )
 
 (tests

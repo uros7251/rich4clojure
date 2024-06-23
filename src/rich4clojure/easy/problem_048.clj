@@ -9,10 +9,14 @@
 ;; collection. It returns the first logical true value of
 ;; (predicate x) where x is an item in the collection.
 
-(def __ :tests-will-fail)
+(def __ 6)
 
 (comment
-  
+  (defn my-some [p coll]
+    (cond (nil? coll) nil
+          (p (first coll)) (first coll)
+          :else (recur p (rest coll))))
+  (my-some #{2 7 6} [5 6 7 8])
   )
 
 (tests

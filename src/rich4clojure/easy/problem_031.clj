@@ -9,10 +9,39 @@
 ;; Write a function which packs consecutive duplicates
 ;; into sub-lists.
 
-(def __ :tests-will-fail)
+(def __ (fn [coll]
+          (->> coll
+                (reduce (fn [acc, x]
+                          (cond (empty? acc)
+                                [[x]]
+                                (= x (first (last acc)))
+                                (conj (apply vector (butlast acc)) (conj (last acc) x))
+                                :else
+                                (conj acc [x])))
+                        [])
+                )))
 
 (comment
-  
+  (defn pack
+    [coll]
+    (->> coll
+         (reduce (fn [acc, x]
+                   (cond (empty? acc)
+                         [[x]]
+                         (= x (first (last acc)))
+                         (conj (apply vector (butlast acc)) (conj (last acc) x))
+                         :else
+                         (conj acc [x])))
+                 [])
+         (map (fn [x]
+                (if (= (count x) 1)
+                  (first x)
+                  x)))
+         ))
+  (defn pack-simple
+    [coll]
+    (partition-by identity coll))
+  (pack-simple [1 1 2 1 1 1 3 3])
   )
 
 (tests

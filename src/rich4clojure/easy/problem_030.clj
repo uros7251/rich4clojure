@@ -9,11 +9,28 @@
 ;; Write a function which removes consecutive duplicates
 ;; from a sequence.
 
-(def __ :tests-will-fail)
+(def __ (fn [coll]
+          (reduce (fn [acc x]
+                    (if (or (empty? acc) (not= x (last acc)))
+                      (conj acc x)
+                      acc))
+                  []
+                  coll))
+  )
 
 (comment
-  
-  )
+  (defn rem-dupl
+     [s]
+     (loop [s' s, r [], c nil]
+       (cond (empty? s')
+             r
+             (or (nil? c) (not= c (first s')))
+             (recur (rest s') (conj r (first s')) (first s'))
+             :else
+             (recur (rest s') r c))))
+  (conj [5] 4)
+  (rem-dupl [1 1 2 3 3 2 2 3])
+)
 
 (tests
   (apply str (__ "Leeeeeerrroyyy")) := "Leroy"

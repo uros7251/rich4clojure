@@ -27,10 +27,20 @@
 ;; 1 That is, (get-in original [k1 k2]) should be the
 ;; same as (get result [k1 k2])
 
-(def __ :tests-will-fail)
+(def __ (fn [m]
+          (into {}
+                (for [[k m'] m
+                         [k' v] m']
+                     {[k k'] v}))))
 
-(comment
-  
+(comment 
+  (defn my-flatten [m]
+    (->> m
+         (mapcat (fn [[k1 m]]
+                   (map (fn [[k2 v]] {[k1 k2] v}) m)))
+         (into {})))
+  (my-flatten '{a {p 1, q 2}
+              b {m 3, n 4}})
   )
 
 (tests

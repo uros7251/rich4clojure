@@ -8,11 +8,19 @@
 ;; Convert a binary number, provided in the form of a
 ;; string, to its numerical value.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (loop [v 0 s' s]
+            (if (empty? s')
+              v
+              (let [v' (* 2 v)]
+                (recur (if (= (first s') \1)
+                         (inc v')
+                         v')
+                       (rest s')))))))
 
 (comment
-  
-  )
+  (map inc [1 2 3 4])
+)
 
 (tests
   0 :=     (__ "0")

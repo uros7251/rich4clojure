@@ -9,7 +9,11 @@
 ;; Write a function which replicates each element of a
 ;; sequence a variable number of times.
 
-(def __ :tests-will-fail)
+(def __ (fn [s n]
+          (reduce (fn [acc, x]
+                    (apply conj acc (repeat n x)))
+                  []
+                  s)))
 
 (comment
   

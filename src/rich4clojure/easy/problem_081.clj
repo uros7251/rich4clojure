@@ -10,9 +10,14 @@
 ;; sets. The intersection is the sub-set of items that
 ;; each set has in common.
 
-(def restricted [intersection])
+(def restricted ['interestion])
 
-(def __ :tests-will-fail)
+(def __ (fn [a b]
+          (reduce #(if (a %2)
+                     (conj %1 %2)
+                     %1)
+                  #{}
+                  b)))
 
 (comment
   

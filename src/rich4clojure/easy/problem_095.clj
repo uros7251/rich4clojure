@@ -11,10 +11,12 @@
 ;; tree must have a value, a left child, and a right
 ;; child.
 
-(def __ :tests-will-fail)
+(def __ (fn [t]
+          (cond (nil? t) true
+                (and (coll? t) (= (count t) 3)) (and (__ (nth t 1)) (__ (nth t 2)))
+                :else false)))
 
 (comment
-  
   )
 
 (tests

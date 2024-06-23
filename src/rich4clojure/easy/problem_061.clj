@@ -11,10 +11,14 @@
 
 (def restricted [zipmap])
 
-(def __ :tests-will-fail)
+(def __ (fn [k v]
+          (->> (map list k v)
+               (reduce #(apply assoc %1 %2) {}))))
 
 (comment
-  
+  (defn my-zipmap [k v]
+    (apply hash-map (interleave k v)))
+  (my-zipmap [:a :b :c] [1 2 3])
   )
 
 (tests

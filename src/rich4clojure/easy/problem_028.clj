@@ -10,10 +10,19 @@
 
 (def restricted [flatten])
 
-(def __ :tests-will-fail)
+(def __ (fn [coll]
+          (if (sequential? coll)
+            (mapcat __ coll)
+            [coll])))
 
 (comment
-  
+  (defn flattenn
+    [coll]
+    (println coll)
+    (if (sequential? coll)
+      (mapcat flattenn coll)
+      [coll])
+    )
   )
 
 (tests

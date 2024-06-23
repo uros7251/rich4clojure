@@ -12,10 +12,22 @@
 
 (def restricted [interleave])
 
-(def __ :tests-will-fail)
+(def __ (fn [s1 s2]
+          (loop [s1' s1 s2' s2 from-first true s []]
+            (cond (and from-first (not-empty s1') (not-empty s2'))
+                  (recur (rest s1') s2' false (conj s (first s1')))
+                  (and (not from-first) (not-empty s2'))
+                  (recur s1' (rest s2') true (conj s (first s2')))
+                  :else
+                  s))))
 
 (comment
-  
+  (defn my-interleave [s1 s2]
+    (loop [s1' s1 s2' s2 s []]
+      (if (or (empty? s1') (empty? s2'))
+        s
+        (recur (rest s1') (rest s2') (conj s (first s1') (first s2'))))))
+  (my-interleave [1 2 3] [4 5 6 7 8])
   )
 
 (tests

@@ -11,10 +11,20 @@
 
 (def restricted [interpose])
 
-(def __ :tests-will-fail)
+(def __ (fn [sep s]
+          (->> s
+               (reduce (fn [acc, x]
+                         (conj acc x sep))
+                       [])
+               (butlast))))
 
 (comment
-  
+  (defn my-interpose-naive [sep s]
+    (butlast (apply concat (map vector s (repeat sep)))))
+  (my-interpose-naive " " ["Uros" "is" "cool"])
+  (defn my-interpose [sep s]
+    (butlast (mapcat vector s (repeat sep))))
+  (my-interpose " " ["Uros" "is" "cool"])
   )
 
 (tests

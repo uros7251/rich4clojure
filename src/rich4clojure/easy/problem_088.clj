@@ -1,5 +1,6 @@
 (ns rich4clojure.easy.problem-088
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.set]))
 
 ;; = Symmetric Difference =
 ;; By 4Clojure user: dbyrne
@@ -10,10 +11,10 @@
 ;; of two sets. The symmetric difference is the set of
 ;; items belonging to one but not both of the two sets.
 
-(def __ :tests-will-fail)
+(def __ (fn [a b]
+          (into (set (remove a b)) (remove b a))))
 
 (comment
-  
   )
 
 (tests

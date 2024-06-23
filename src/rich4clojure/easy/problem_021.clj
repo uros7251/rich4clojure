@@ -11,11 +11,21 @@
 
 (def restricted [nth])
 
-(def __ :tests-will-fail)
+(def __ (fn
+          [coll n]
+          (if (or (zero? n) (nil? coll))
+            (first coll)
+            (recur (next coll) (dec n)))))
 
 (comment
+  (defn __
+    [coll n]
+    (if (zero? n)
+      (first coll)
+      (recur (next coll) (dec n))))
   
-  )
+  (__ [1 2 3 4 5] 2) ;=> 3
+  :rcf)
 
 (tests
   (__ '(4 5 6 7) 2) := 6

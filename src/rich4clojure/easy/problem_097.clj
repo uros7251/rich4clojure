@@ -19,10 +19,21 @@
 ;; Write a function which returns the nth row of Pascal's
 ;; Triangle.
 
-(def __ :tests-will-fail)
+(def __ (fn [n]
+          (loop [n' (dec n) r [1]]
+            (if (zero? n')
+              r
+              (recur (dec n')
+                     (conj (->> r
+                                (partition 2 1)
+                                (reduce #(conj %1 (apply + %2)) [1]))
+                           1))))))
 
 (comment
-  
+  (conj (->> [1 3 3 1]
+             (partition 2 1)
+             (reduce #(conj %1 (apply + %2)) [1])
+             ) 1)
   )
 
 (tests

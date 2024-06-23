@@ -11,10 +11,15 @@
 
 (def restricted [range])
 
-(def __ :tests-will-fail)
+(def __ (fn
+          [a b]
+          (loop [x a r []]
+            (if (< x b)
+              (recur (inc x) (conj r x))
+              r))))
 
 (comment
-  
+  (range 4 9)
   )
 
 (tests

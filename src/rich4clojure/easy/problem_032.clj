@@ -9,10 +9,20 @@
 ;; Write a function which duplicates each element of a
 ;; sequence.
 
-(def __ :tests-will-fail)
+(def __ (fn [s]
+          (reduce (fn [acc, x]
+                    (conj acc x x))
+                  []
+                  s)))
 
 (comment
-  
+  (defn dupl [s]
+    (loop [s' s d []]
+      (if (empty? s')
+        d
+        (let [x (first s')]
+          (recur (rest s') (conj d x x))))))
+  (dupl [1 2 3 4]) 
   )
 
 (tests

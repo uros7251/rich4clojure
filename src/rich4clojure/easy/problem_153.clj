@@ -1,5 +1,6 @@
 (ns rich4clojure.easy.problem-153
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.set :as set]))
 
 ;; = Pairwise Disjoint Sets =
 ;; By 4Clojure user: maximental
@@ -16,10 +17,18 @@
 ;; 1 Such sets are usually called pairwise disjoint or
 ;; mutually disjoint .
 
-(def __ :tests-will-fail)
+(def __ (fn [sos]
+          (loop [union #{} sos' sos]
+            (cond (empty? sos') true
+                  (seq (clojure.set/intersection union (first sos'))) false ; note: filter instead of intersection won't work with nils as elements of set
+                  :else (recur (into union (first sos')) (rest sos')) 
+              ))))
 
-(comment
-  
+(comment 
+  (defn my-pairwise-disjoin [sos]
+    (= (count (reduce clojure.set/union sos))
+       (apply + (map count sos))))
+  (my-pairwise-disjoin #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
   )
 
 (tests

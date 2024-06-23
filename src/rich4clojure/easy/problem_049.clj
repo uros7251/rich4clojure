@@ -11,10 +11,19 @@
 
 (def restricted [split-at])
 
-(def __ :tests-will-fail)
+(def __ (fn [k s]
+          (->> (range)
+               (map #(list %1 %2) s)
+               (reduce (fn [acc x]
+                         (if (< (second x) k)
+                           (vector (conj (first acc) (first x)) (second acc))
+                           (vector (first acc) (conj (second acc) (first x)))))
+                       [[] []]))))
 
-(comment
-  
+(comment 
+  (defn my-split-at [k s]
+    [(vec (take k s)) (vec (drop k s))])
+  (my-split-at 3 [1 2 3 4 5 6])
   )
 
 (tests

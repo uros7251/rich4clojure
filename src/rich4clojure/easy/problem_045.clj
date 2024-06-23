@@ -9,7 +9,10 @@
 ;; The iterate function can be used to produce an infinite
 ;; lazy sequence.
 
-(def __ :tests-will-fail)
+(def __ (loop [x 1 s [] n 5]
+          (if (zero? n)
+            s
+            (recur (+ 3 x) (conj s x) (dec n)))))
 
 (comment
   

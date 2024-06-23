@@ -28,10 +28,36 @@
 ;; ten will always be represented with the single
 ;; character "T", rather than the two characters "10".
 
-(def __ :tests-will-fail)
+(defn suit [s]
+  (cond (= s \S) :spade
+        (= s \H) :heart
+        (= s \D) :diamond
+        (= s \C) :club
+        :else :invalid))
+
+(defn rank [r]
+  (let [ascii (- (int r) (int \2))]
+    (cond (and (>= ascii 0) (<= ascii 7)) ascii
+          (= r \T) 8
+          (= r \J) 9
+          (= r \Q) 10
+          (= r \K) 11
+          (= r \A) 12
+          :else -1)))
+
+(def __ (fn [card]
+          {:suit (suit (first card)) :rank (rank (second card))}))
 
 (comment
+  (defn my-card-conv [card]
+    (let [suits (into {} (map hash-map "SHDC" [:spade :heart :diamond :club]))
+          ranks (into {} (map hash-map "23456789TJQKA" (range 13)))
+          s (first card)
+          r (second card)]
+      {:suit (suits s) :rank (ranks r)})
+  )
   
+  (map my-card-conv ["DQ" "H5" "CA" "S9"])
   )
 
 (tests

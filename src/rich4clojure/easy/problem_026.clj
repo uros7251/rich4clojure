@@ -9,10 +9,23 @@
 ;; Write a function which returns the first X fibonacci
 ;; numbers.
 
-(def __ :tests-will-fail)
+(def __ (fn 
+          [x]
+         (take x (map first (iterate (fn [[a b]] [b (+ a b)]) [1 1])))))
 
 (comment
-  
+  (defn concat_fib
+    [coll]
+    (cond (empty? coll) [1]
+          (= 1 (count coll)) [1 1]
+          :else (conj coll (+ (last coll) (last (butlast coll))))))
+  (defn fib
+    [n]
+    (loop [k 0 coll []]
+      (if (= k n)
+        coll
+        (recur (inc k) (concat_fib coll)))))
+  (fib 10) ;=> [1 1 2 3 5 8 13 21 34 55]
   )
 
 (tests

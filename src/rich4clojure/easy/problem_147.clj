@@ -19,12 +19,22 @@
 ;; indicate that you would rather overflow into Clojure's
 ;; slower, arbitrary-precision bigint.
 
-(def __ :tests-will-fail)
+(def __ (fn
+          ([row] (lazy-seq (cons row (__ row :next))))
+          ([row _]
+           (lazy-seq
+            (let [next-row (map #(apply +' %) (partition 2 1 (conj (into [0] row) 0)))]
+              (cons next-row (__ next-row :next)))))))
 
-(comment
-  
-  )
-
+(comment 
+  (defn blogscot [coll]
+    (lazy-seq
+      (cons coll
+            (blogscot (let [middle (map #(apply +' %) (partition 2 1 coll))]
+                           (concat [(first coll)] middle [(last coll)]))))))
+  (time (nth (nth (blogscot [1]) 1000) 50))
+  (time (nth (nth (__ [1]) 1000) 50))
+)
 (tests
   (second (__ [2 3 2])) := [2 5 5 2]
   (take 5 (__ [1])) := [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]]

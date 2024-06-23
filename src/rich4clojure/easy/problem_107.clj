@@ -18,11 +18,22 @@
 ;; 
 ;; It can be hard to follow in the abstract, so let's
 ;; build a simple closure. Given a positive integer n,
-;; return a function (f x) which computes x n. Observe
+;; return a function (f x) which computes x^n. Observe
 ;; that the effect of this is to preserve the value of n
 ;; for use outside the scope in which it is defined.
 
-(def __ :tests-will-fail)
+(def __ (fn [n]
+          (fn [x]
+            (loop [n' n
+                   m x
+                   y 1]
+              (if (zero? n')
+                y
+                (recur (quot n' 2) 
+                       (* m m)
+                       (if (zero? (rem n' 2))
+                         y
+                         (* y m))))))))
 
 (comment
   

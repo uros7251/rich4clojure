@@ -19,7 +19,10 @@
 ;; * x > y → :gt
 ;; * x < y → :lt
 
-(def __ :tests-will-fail)
+(def __ (fn [comp x y]
+          (cond (comp x y) :lt
+                (comp y x) :gt
+                :else :eq)))
 
 (comment
   

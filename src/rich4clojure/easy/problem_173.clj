@@ -15,14 +15,15 @@
 (def __ :tests-will-fail)
 
 (comment
-  
+  [+ (range 3)]
   )
+  
 
 (tests
   3 :=
-  (let [[__] [+ (range 3)]] (apply __))
-  (let [[[__] b] [[+ 1] 2]] (__ b))
-  (let [[__] [inc 2]] (__)))
+  (let [[op s] [+ (range 3)]] (apply op s))
+  (let [[[op a] b] [[+ 1] 2]] (op a b))
+  (let [[f x] [inc 2]] (f x)))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/3b66d5ad0242a7fbbb163a14c2df96f2

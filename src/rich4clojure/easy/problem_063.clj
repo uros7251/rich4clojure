@@ -14,10 +14,24 @@
 
 (def restricted [group-by])
 
-(def __ :tests-will-fail)
+(def __ (fn [f s]
+          (reduce (fn [acc x]
+                    (let [fv (f x)]
+                      (update acc fv
+                              (fn [old, x'] 
+                                (conj (or old []) x'))
+                              x)))
+                  {}
+                  s)))
 
 (comment
-  
+  (def my-group-by (fn [f s]
+             (reduce (fn [acc x]
+                       (let [fv (f x) bucket (acc fv [])]
+                         (assoc acc fv (conj bucket x))))
+                     {}
+                     s)))
+  (my-group-by #(> % 5) [1 3 6 8])
   )
 
 (tests

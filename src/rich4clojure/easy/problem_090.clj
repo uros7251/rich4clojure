@@ -9,10 +9,19 @@
 ;; Write a function which calculates the Cartesian product
 ;; of two sets.
 
-(def __ :tests-will-fail)
+(def __ (fn [a b]
+          (set (for [x a
+                     y b]
+                 [x y]))))
 
 (comment
-  
+  (defn combine [coll x]
+    (reduce #(conj %1 [%2 x]) #{} coll))
+  (defn my-cartesian [a b]
+     (reduce #(apply conj %1 (combine a %2))
+             #{}
+             b))
+  (my-cartesian #{1 2 3} #{4 5})
   )
 
 (tests

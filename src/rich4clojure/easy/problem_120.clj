@@ -13,10 +13,23 @@
 ;; squared; whereas 15 is smaller than 1 squared plus 5
 ;; squared.
 
-(def __ :tests-will-fail)
+(defn sqd [x]
+  (loop [sum 0 x' x]
+    (if (zero? x')
+      sum
+      (let [d (rem x' 10)]
+        (recur (+ sum (* d d)) (quot x' 10))))))
+
+(def __ (fn [nums]
+          (loop [cnt 0 nums' nums]
+            (if (empty? nums')
+              cnt
+              (let [x (first nums')]
+                (recur (if (< x (sqd x))
+                         (inc cnt)
+                         cnt) (rest nums')))))))
 
 (comment
-  
   )
 
 (tests

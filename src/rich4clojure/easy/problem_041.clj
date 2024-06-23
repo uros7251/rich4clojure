@@ -9,7 +9,11 @@
 ;; Write a function which drops every Nth item from a
 ;; sequence.
 
-(def __ :tests-will-fail)
+(def __ (fn [s n]
+          (->> (range)
+               (map vector s)
+               (filter #(not= (rem (second %) n) (dec n)))
+               (map first))))
 
 (comment
   

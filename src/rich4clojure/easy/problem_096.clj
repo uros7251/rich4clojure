@@ -13,10 +13,19 @@
 ;; not to Tree for a reminder on the tree representation
 ;; we're using).
 
-(def __ :tests-will-fail)
+(def __ (fn [t]
+          (if (nil? t) true
+              ((fn sym [t u]
+                 (if (and (nil? t) (nil? u))
+                   true
+                   (and (= (first t) (first u))
+                        (sym (nth t 1) (nth u 2))
+                        (sym (nth t 2) (nth u 1)))))
+               (nth t 1)
+               (nth t 2)
+               ))))
 
 (comment
-  
   )
 
 (tests

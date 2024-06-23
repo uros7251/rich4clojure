@@ -9,10 +9,14 @@
 ;; Write a function which returns the second to last
 ;; element from a sequence.
 
-(def __ :tests-will-fail)
+(def __ (fn
+          [coll]
+          (nth coll (- (count coll) 2))))
 
 (comment
-  
+  (defn second-last [coll]
+    (second (into () coll)))
+  (second-last (list 1 2 3 4 5))
   )
 
 (tests

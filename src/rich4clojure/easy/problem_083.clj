@@ -10,11 +10,14 @@
 ;; the parameters are true, but not all of the parameters
 ;; are true. Otherwise your function should return false.
 
-(def __ :tests-will-fail)
-
+(def __ (fn [& b]
+          (loop [b' b cnt {false 0, true 0}]
+            (if (empty? b')
+              (not-any? zero? (vals cnt))
+              (recur (rest b') (update cnt (first b') inc))))))
 (comment
   
-  )
+ )
 
 (tests
   false := (__ false false)

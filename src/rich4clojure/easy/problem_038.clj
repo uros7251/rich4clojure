@@ -11,7 +11,14 @@
 
 (def restricted [max max-key])
 
-(def __ :tests-will-fail)
+(def __ (fn
+          ([x] x)
+          ([x y]
+           (if (> x y)
+             x
+             y))
+          ([x y & z]
+           (apply __ (__ x y) z))))
 
 (comment
   

@@ -11,7 +11,14 @@
 
 (def restricted [count])
 
-(def __ :tests-will-fail)
+(def __
+  "Returns the total number of elements in a sequence."
+  (fn
+          ([coll] (__ coll 0))
+          ([coll, n]
+           (if (nil? coll)
+             n
+             (recur (next coll) (inc n))))))
 
 (comment
   

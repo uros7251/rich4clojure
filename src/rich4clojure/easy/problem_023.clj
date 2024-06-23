@@ -10,10 +10,18 @@
 
 (def restricted [reverse rseq])
 
-(def __ :tests-will-fail)
+(def __ (fn
+          [s]
+          (reduce conj () s)))
 
 (comment
-  
+  (def __ (fn
+            ([s] (__ s ()))
+            ([s, r]
+             (if (nil? s)
+               r
+               (recur (next s) (conj r (first s)))))))
+  (__ '(1 2 3 4 5)) ; => (5 4 3 2 1)
   )
 
 (tests
